@@ -14,6 +14,10 @@ Extension also provides CSRF Handling mini-extension source (Python) which could
 
 This extension _DOES NOT_ require Burp Suite Professional
 
+## Download
+
+https://github.com/hvqzao/burp-wildcard/releases/download/v1.02/wildcard.jar
+
 ## License
 
 [MIT License](https://github.com/twbs/bootstrap/blob/master/LICENSE)
