@@ -1,6 +1,6 @@
-// Wildcard Burp Extension, (c) 2015 Marcin Woloszyn (@hvqzao), Released under MIT license
+// Wildcard Burp Extension, (c) 2015-2016 Marcin Woloszyn (@hvqzao), Released under MIT license
 
-// v1.02, 2015-04-18
+// v1.03, 2016-04-15
 
 package burp;
 
@@ -56,7 +56,7 @@ public class BurpExtender implements IBurpExtender, ITab, IExtensionStateListene
 	private JCheckBox optionsSettingsUnsupported;
 	private JCheckBox optionsSettingsPersistency;
 	private JCheckBox optionsSettingsShortenTab;
-	private final String[] burpTabs = { "Target", "Proxy", "Spider", "Scanner", "Intruder", "Repeater", "Sequencer", "Decoder", "Comparer", "Extender", "Options", "Alerts", "*" };
+	private final String[] burpTabs = { "Target", "Proxy", "Spider", "Scanner", "Intruder", "Repeater", "Sequencer", "Decoder", "Comparer", "Extender", "Options", "User options", "Project options", "Alerts", "*" };
 	private JCheckBox optionsSettingsHijack;
 	private ArrayList<JDialog> dialogs = new ArrayList<JDialog>();
 	private Timer hijackTimer;

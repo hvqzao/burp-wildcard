@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<?xml version="1.0" encoding="WINDOWS-1250" standalone="no"?>
 <jardesc>
-    <jar path="Wildcard/bin/wildcard.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/Wildcard/src/build.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <jar path="burp-wildcard/bin/wildcard.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/burp-wildcard/src/build.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
     <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
@@ -11,7 +11,7 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <javaElement handleIdentifier="=Wildcard/src&lt;burp"/>
-        <folder path="/Wildcard/wildcard"/>
+        <folder path="/burp-wildcard/wildcard"/>
+        <javaElement handleIdentifier="=burp-wildcard/src&lt;burp"/>
     </selectedElements>
 </jardesc>
