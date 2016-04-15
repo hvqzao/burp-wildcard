@@ -16,7 +16,7 @@ This extension _DOES NOT_ require Burp Suite Professional
 
 ## Download
 
-https://github.com/hvqzao/burp-wildcard/releases/download/v1.02/wildcard.jar
+https://github.com/hvqzao/burp-wildcard/releases/download/v1.03/wildcard.jar
 
 ## License
 
