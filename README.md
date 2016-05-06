@@ -20,4 +20,4 @@ https://github.com/hvqzao/burp-wildcard/releases/download/v1.03/wildcard.jar
 
 ## License
 
-[MIT License](https://github.com/twbs/bootstrap/blob/master/LICENSE)
+[MIT License](LICENSE)
