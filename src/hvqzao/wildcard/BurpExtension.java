@@ -1,5 +1,4 @@
 // Wildcard Burp Extension, (c) 2015-2016 Marcin Woloszyn (@hvqzao), Released under MIT license
-
 package hvqzao.wildcard;
 
 import burp.IBurpExtender;
@@ -31,29 +30,22 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 public class BurpExtension implements IBurpExtender, ITab, IExtensionStateListener {
 
     private static IBurpExtenderCallbacks callbacks;
     private static IExtensionHelpers helpers;
-    // private static PrintWriter stdout;
-    // private static PrintWriter stderr;
     private JTabbedPane extensionTabbedPane;
     private JLabel extensionTabLabel;
     private Component extensionTabLabelRestore;
     private Timer extensionTabHighlightTimer;
-    private JFrame burpFrame;
+    //private JFrame burpFrame;
     private JTabbedPane burpTabbedPane;
     // private DefaultListModel<String> hijackModel;
     private ArrayList<String> hijackModel;
@@ -72,9 +64,6 @@ public class BurpExtension implements IBurpExtender, ITab, IExtensionStateListen
         // your extension code here
         // obtain an extension helpers object
         helpers = callbacks.getHelpers();
-        // stdout & stderr
-        // stdout = new PrintWriter(callbacks.getStdout(), true);
-        // stderr = new PrintWriter(callbacks.getStderr(), true);
         // set extension name
         callbacks.setExtensionName("Wildcard");
         // draw UI
@@ -92,62 +81,74 @@ public class BurpExtension implements IBurpExtender, ITab, IExtensionStateListen
                 callbacks.customizeUiComponent(extensionTabbedPane);
 
                 // options tab
-                final JPanel optionsPane = new JPanel();
+//                final JPanel optionsPane = new JPanel();
+                final OptionsPane optionsPane = new OptionsPane();
                 // options layout
-                SpringLayout optionsLayout = new SpringLayout();
-                optionsPane.setLayout(optionsLayout);
+//                SpringLayout optionsLayout = new SpringLayout();
+//                optionsPane.setLayout(optionsLayout);
                 // options settings
-                JButton optionsSettingsHelp = new JButton(iconHelp);
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsHelp, 10, SpringLayout.NORTH, optionsPane);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsHelp, 10, SpringLayout.WEST, optionsPane);
-                optionsSettingsHelp.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-                optionsSettingsHelp.setPreferredSize(iconDimension);
-                optionsSettingsHelp.setMaximumSize(iconDimension);
+//                JButton optionsSettingsHelp = new JButton(iconHelp);
+                JButton optionsSettingsHelp = optionsPane.getOptionsSettingsHelp();
+                optionsSettingsHelp.setIcon(iconHelp);
+                callbacks.customizeUiComponent(optionsSettingsHelp);
+//                JButton optionsSettingsHelp = new JButton(iconHelp);
+//                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsHelp, 10, SpringLayout.NORTH, optionsPane);
+//                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsHelp, 10, SpringLayout.WEST, optionsPane);
+//                optionsSettingsHelp.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+//                optionsSettingsHelp.setPreferredSize(iconDimension);
+//                optionsSettingsHelp.setMaximumSize(iconDimension);
                 optionsSettingsHelp.setEnabled(false);
-                optionsPane.add(optionsSettingsHelp);
-                //
-                JButton optionsSettingsDefaults = new JButton(iconDefaults);
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsDefaults, 5, SpringLayout.SOUTH, optionsSettingsHelp);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsDefaults, 10, SpringLayout.WEST, optionsPane);
-                optionsSettingsDefaults.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-                optionsSettingsDefaults.setPreferredSize(iconDimension);
-                optionsSettingsDefaults.setMaximumSize(iconDimension);
-                optionsPane.add(optionsSettingsDefaults);
-                //
-                final JLabel optionsSettingsTitle = new JLabel("<html><b style='color:#e58900;font-size:10px'>Settings</b></html>");
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsTitle, 0, SpringLayout.NORTH, optionsSettingsHelp);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsTitle, 12, SpringLayout.EAST, optionsSettingsHelp);
-                optionsPane.add(optionsSettingsTitle);
-                //
-                JLabel optionsSettingsDescription = new JLabel("<html>Use these settings to control extension behavior.</html>");
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsDescription, 10, SpringLayout.SOUTH, optionsSettingsTitle);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsDescription, 0, SpringLayout.WEST, optionsSettingsTitle);
-                optionsLayout.putConstraint(SpringLayout.EAST, optionsSettingsDescription, -10, SpringLayout.EAST, optionsPane);
-                // optionsFilterDescription.setVerticalAlignment(SwingConstants.TOP);
-                optionsPane.add(optionsSettingsDescription);
-                //
-                optionsSettingsUnsupported = new JCheckBox("Enable features not officially supported by Burp Extender");
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsUnsupported, 15, SpringLayout.SOUTH, optionsSettingsDescription);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsUnsupported, 0, SpringLayout.WEST, optionsSettingsTitle);
+//                optionsPane.add(optionsSettingsHelp);
+//                //
+//                JButton optionsSettingsDefaults = new JButton(iconDefaults);
+                JButton optionsSettingsDefaults = optionsPane.getOptionsSettingsDefaults();
+                optionsSettingsDefaults.setIcon(iconDefaults);
+                callbacks.customizeUiComponent(optionsSettingsDefaults);
+//                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsDefaults, 5, SpringLayout.SOUTH, optionsSettingsHelp);
+//                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsDefaults, 10, SpringLayout.WEST, optionsPane);
+//                optionsSettingsDefaults.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+//                optionsSettingsDefaults.setPreferredSize(iconDimension);
+//                optionsSettingsDefaults.setMaximumSize(iconDimension);
+//                optionsPane.add(optionsSettingsDefaults);
+//                //
+//                final JLabel optionsSettingsTitle = new JLabel("<html><b style='color:#e58900;font-size:10px'>Settings</b></html>");
+                final JLabel optionsSettingsTitle = optionsPane.getOptionsSettingsTitle();
+//                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsTitle, 0, SpringLayout.NORTH, optionsSettingsHelp);
+//                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsTitle, 12, SpringLayout.EAST, optionsSettingsHelp);
+//                optionsPane.add(optionsSettingsTitle);
+//                //
+//                JLabel optionsSettingsDescription = new JLabel("<html>Use these settings to control extension behavior.</html>");
+                final JLabel optionsSettingsDescription = optionsPane.getOptionsSettingsDescription();
+//                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsDescription, 10, SpringLayout.SOUTH, optionsSettingsTitle);
+//                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsDescription, 0, SpringLayout.WEST, optionsSettingsTitle);
+//                optionsLayout.putConstraint(SpringLayout.EAST, optionsSettingsDescription, -10, SpringLayout.EAST, optionsPane);
+//                // optionsFilterDescription.setVerticalAlignment(SwingConstants.TOP);
+//                optionsPane.add(optionsSettingsDescription);
+//                //
+//                optionsSettingsUnsupported = new JCheckBox("Enable features not officially supported by Burp Extender");
+                optionsSettingsUnsupported = optionsPane.getOptionsSettingsUnsupported();
+//                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsUnsupported, 15, SpringLayout.SOUTH, optionsSettingsDescription);
+//                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsUnsupported, 0, SpringLayout.WEST, optionsSettingsTitle);
                 // optionsSettingsUnsupported.setSelected(true);
                 callbacks.customizeUiComponent(optionsSettingsUnsupported);
-                optionsPane.add(optionsSettingsUnsupported);
-                //
-                optionsSettingsPersistency = new JCheckBox("Remember those settings (potentially unsafe)");
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsPersistency, 5, SpringLayout.SOUTH, optionsSettingsUnsupported);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsPersistency, 20, SpringLayout.WEST, optionsSettingsTitle);
-                // optionsSettingsPersistent.setSelected(true);
+//                optionsPane.add(optionsSettingsUnsupported);
+//                //
+//                optionsSettingsPersistency = new JCheckBox("Remember those settings (potentially unsafe)");
+                optionsSettingsPersistency = optionsPane.getOptionsSettingsPersistency();
+//                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsPersistency, 5, SpringLayout.SOUTH, optionsSettingsUnsupported);
+//                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsPersistency, 20, SpringLayout.WEST, optionsSettingsTitle);
                 callbacks.customizeUiComponent(optionsSettingsPersistency);
                 optionsSettingsPersistency.setEnabled(false);
-                optionsPane.add(optionsSettingsPersistency);
-                //
-                optionsSettingsShortenTab = new JCheckBox("Shorten extension name on main tab");
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsShortenTab, 5, SpringLayout.SOUTH, optionsSettingsPersistency);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsShortenTab, 0, SpringLayout.WEST, optionsSettingsTitle);
+//                optionsPane.add(optionsSettingsPersistency);
+//                //
+//                optionsSettingsShortenTab = new JCheckBox("Shorten extension name on main tab");
+                optionsSettingsShortenTab = optionsPane.getOptionsSettingsShortenTab();
+//                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsShortenTab, 5, SpringLayout.SOUTH, optionsSettingsPersistency);
+//                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsShortenTab, 0, SpringLayout.WEST, optionsSettingsTitle);
                 optionsSettingsShortenTab.setSelected(true);
                 callbacks.customizeUiComponent(optionsSettingsShortenTab);
                 optionsSettingsShortenTab.setEnabled(false);
-                optionsPane.add(optionsSettingsShortenTab);
+//                optionsPane.add(optionsSettingsShortenTab);
                 optionsSettingsShortenTab.addActionListener(new ActionListener() {
 
                     @Override
@@ -159,14 +160,15 @@ public class BurpExtension implements IBurpExtender, ITab, IExtensionStateListen
                         extensionTabHighlightOrange();
                     }
                 });
-                //
-                optionsSettingsHijack = new JCheckBox("Hijack tabs belonging to other extensions");
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsHijack, 5, SpringLayout.SOUTH, optionsSettingsShortenTab);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsHijack, 0, SpringLayout.WEST, optionsSettingsTitle);
+//                //
+//                optionsSettingsHijack = new JCheckBox("Hijack tabs belonging to other extensions");
+                optionsSettingsHijack = optionsPane.getOptionsSettingsHijack();
+//                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsHijack, 5, SpringLayout.SOUTH, optionsSettingsShortenTab);
+//                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsHijack, 0, SpringLayout.WEST, optionsSettingsTitle);
                 optionsSettingsHijack.setSelected(true);
                 callbacks.customizeUiComponent(optionsSettingsHijack);
                 optionsSettingsHijack.setEnabled(false);
-                optionsPane.add(optionsSettingsHijack);
+//                optionsPane.add(optionsSettingsHijack);
                 optionsSettingsHijack.addActionListener(new ActionListener() {
 
                     @Override
@@ -177,73 +179,74 @@ public class BurpExtension implements IBurpExtender, ITab, IExtensionStateListen
                         optionsSettingsHijackUpdate();
                     }
                 });
+                ////
+                //JSeparator optionsSettingsSeparator = new JSeparator();
+                //optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsSeparator, 21, SpringLayout.SOUTH, optionsSettingsHijack);
+                //optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsSeparator, 10, SpringLayout.WEST, optionsPane);
+                //optionsLayout.putConstraint(SpringLayout.EAST, optionsSettingsSeparator, -10, SpringLayout.EAST, optionsPane);
+                //optionsPane.add(optionsSettingsSeparator);
+                //// Helpers
+                //final JButton optionsHelpersHelp = new JButton(iconHelp);
+                //optionsLayout.putConstraint(SpringLayout.NORTH, optionsHelpersHelp, 21, SpringLayout.NORTH, optionsSettingsSeparator);
+                //optionsLayout.putConstraint(SpringLayout.WEST, optionsHelpersHelp, 10, SpringLayout.WEST, optionsPane);
+                //optionsHelpersHelp.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                //optionsHelpersHelp.setPreferredSize(iconDimension);
+                //optionsHelpersHelp.setMaximumSize(iconDimension);
+                //optionsHelpersHelp.setEnabled(false);
+                //optionsPane.add(optionsHelpersHelp);
+                ////
+                //JButton optionsHelpersDefaults = new JButton(iconDefaults);
+                //optionsLayout.putConstraint(SpringLayout.NORTH, optionsHelpersDefaults, 5, SpringLayout.SOUTH, optionsHelpersHelp);
+                //optionsLayout.putConstraint(SpringLayout.WEST, optionsHelpersDefaults, 10, SpringLayout.WEST, optionsPane);
+                //optionsHelpersDefaults.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                //optionsHelpersDefaults.setPreferredSize(iconDimension);
+                //optionsHelpersDefaults.setMaximumSize(iconDimension);
+                //optionsHelpersDefaults.setEnabled(false);
+                //optionsPane.add(optionsHelpersDefaults);
+                ////
+                //final JLabel optionsHelpersTitle = new JLabel("<html><b style='color:#e58900;font-size:10px'>Helpers</b></html>");
+                //optionsLayout.putConstraint(SpringLayout.NORTH, optionsHelpersTitle, 0, SpringLayout.NORTH, optionsHelpersHelp);
+                //optionsLayout.putConstraint(SpringLayout.WEST, optionsHelpersTitle, 12, SpringLayout.EAST, optionsHelpersHelp);
+                //optionsPane.add(optionsHelpersTitle);
+                ////
+                //JLabel optionsHelpersDescription = new JLabel("<html>From here you might access sources of mini-extensions which act" + " as helpers for testing specific web applications. Those extensions were written in Python so they can be easily"
+                //        + " customized, saved in working folder and loaded into Burp without need of recompilation.</html>");
+                //optionsLayout.putConstraint(SpringLayout.NORTH, optionsHelpersDescription, 10, SpringLayout.SOUTH, optionsHelpersTitle);
+                //optionsLayout.putConstraint(SpringLayout.WEST, optionsHelpersDescription, 0, SpringLayout.WEST, optionsHelpersTitle);
+                //optionsLayout.putConstraint(SpringLayout.EAST, optionsHelpersDescription, -10, SpringLayout.EAST, optionsPane);
+                //optionsPane.add(optionsHelpersDescription);
+                ////
+                //final JCheckBox optionsHelpersCSRF = new JCheckBox("<html><i style='color:#e58900'>CSRF Handling</i> Burp Extension (Python)</html>");
+                //optionsLayout.putConstraint(SpringLayout.NORTH, optionsHelpersCSRF, 15, SpringLayout.SOUTH, optionsHelpersDescription);
+                //optionsLayout.putConstraint(SpringLayout.WEST, optionsHelpersCSRF, 0, SpringLayout.WEST, optionsHelpersTitle);
+                //optionsLayout.putConstraint(SpringLayout.EAST, optionsHelpersCSRF, -10, SpringLayout.EAST, optionsPane);
+                //callbacks.customizeUiComponent(optionsHelpersCSRF);
+                //optionsPane.add(optionsHelpersCSRF);
+                //optionsHelpersCSRF.addActionListener(new ActionListener() {
                 //
-                JSeparator optionsSettingsSeparator = new JSeparator();
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsSettingsSeparator, 21, SpringLayout.SOUTH, optionsSettingsHijack);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsSettingsSeparator, 10, SpringLayout.WEST, optionsPane);
-                optionsLayout.putConstraint(SpringLayout.EAST, optionsSettingsSeparator, -10, SpringLayout.EAST, optionsPane);
-                optionsPane.add(optionsSettingsSeparator);
-                // Helpers
-                final JButton optionsHelpersHelp = new JButton(iconHelp);
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsHelpersHelp, 21, SpringLayout.NORTH, optionsSettingsSeparator);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsHelpersHelp, 10, SpringLayout.WEST, optionsPane);
-                optionsHelpersHelp.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-                optionsHelpersHelp.setPreferredSize(iconDimension);
-                optionsHelpersHelp.setMaximumSize(iconDimension);
-                optionsHelpersHelp.setEnabled(false);
-                optionsPane.add(optionsHelpersHelp);
-                //
-                JButton optionsHelpersDefaults = new JButton(iconDefaults);
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsHelpersDefaults, 5, SpringLayout.SOUTH, optionsHelpersHelp);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsHelpersDefaults, 10, SpringLayout.WEST, optionsPane);
-                optionsHelpersDefaults.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-                optionsHelpersDefaults.setPreferredSize(iconDimension);
-                optionsHelpersDefaults.setMaximumSize(iconDimension);
-                optionsHelpersDefaults.setEnabled(false);
-                optionsPane.add(optionsHelpersDefaults);
-                //
-                final JLabel optionsHelpersTitle = new JLabel("<html><b style='color:#e58900;font-size:10px'>Helpers</b></html>");
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsHelpersTitle, 0, SpringLayout.NORTH, optionsHelpersHelp);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsHelpersTitle, 12, SpringLayout.EAST, optionsHelpersHelp);
-                optionsPane.add(optionsHelpersTitle);
-                //
-                JLabel optionsHelpersDescription = new JLabel("<html>From here you might access sources of mini-extensions which act" + " as helpers for testing specific web applications. Those extensions were written in Python so they can be easily"
-                        + " customized, saved in working folder and loaded into Burp without need of recompilation.</html>");
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsHelpersDescription, 10, SpringLayout.SOUTH, optionsHelpersTitle);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsHelpersDescription, 0, SpringLayout.WEST, optionsHelpersTitle);
-                optionsLayout.putConstraint(SpringLayout.EAST, optionsHelpersDescription, -10, SpringLayout.EAST, optionsPane);
-                optionsPane.add(optionsHelpersDescription);
-                //
-                final JCheckBox optionsHelpersCSRF = new JCheckBox("<html><i style='color:#e58900'>CSRF Handling</i> Burp Extension (Python)</html>");
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsHelpersCSRF, 15, SpringLayout.SOUTH, optionsHelpersDescription);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsHelpersCSRF, 0, SpringLayout.WEST, optionsHelpersTitle);
-                optionsLayout.putConstraint(SpringLayout.EAST, optionsHelpersCSRF, -10, SpringLayout.EAST, optionsPane);
-                callbacks.customizeUiComponent(optionsHelpersCSRF);
-                optionsPane.add(optionsHelpersCSRF);
-                optionsHelpersCSRF.addActionListener(new ActionListener() {
+                //    @Override
+                //    public void actionPerformed(ActionEvent e) {
+                //        if (optionsHelpersCSRF.isSelected()) {
+                //            optionsHelpersCSRF.setSelected(false);
+                //            new HelperView(burpFrame, "CSRF Handling Burp Extension (Python)", "csrf_handling.py", helpers.bytesToString(streamToBytes(getClass().getResourceAsStream("/hvqzao/wildcard/resources/csrf_handling.py"))));
+                //        }
+                //    }
+                //});
+                ////
+                //JLabel optionsHelpersCSRFDescription = new JLabel("<html>This extension should handle application specific CSRF tokens in order to enable it for automated testing."
+                //        + "There are separate settings also available for literal string replacement in requests and responses. Thanks to that there is no need to mess in global Burp proxy search and replace settings.</html>");
+                //optionsLayout.putConstraint(SpringLayout.NORTH, optionsHelpersCSRFDescription, 3, SpringLayout.SOUTH, optionsHelpersCSRF);
+                //optionsLayout.putConstraint(SpringLayout.WEST, optionsHelpersCSRFDescription, 20, SpringLayout.WEST, optionsHelpersCSRF);
+                //optionsLayout.putConstraint(SpringLayout.EAST, optionsHelpersCSRFDescription, -10, SpringLayout.EAST, optionsPane);
+                //optionsPane.add(optionsHelpersCSRFDescription);
+                //// options height measurement component
+                //final JPanel optionsPaneHeight = new JPanel();
+                //optionsLayout.putConstraint(SpringLayout.NORTH, optionsPaneHeight, 0, SpringLayout.NORTH, optionsPane);
+                //optionsLayout.putConstraint(SpringLayout.SOUTH, optionsPaneHeight, 0, SpringLayout.SOUTH, optionsSettingsShortenTab);
+                //optionsLayout.putConstraint(SpringLayout.WEST, optionsPaneHeight, 0, SpringLayout.WEST, optionsPane);
+                //optionsLayout.putConstraint(SpringLayout.EAST, optionsPaneHeight, 0, SpringLayout.WEST, optionsPane);
+                //optionsPane.add(optionsPaneHeight);
 
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (optionsHelpersCSRF.isSelected()) {
-                            optionsHelpersCSRF.setSelected(false);
-                            new HelperView(burpFrame, "CSRF Handling Burp Extension (Python)", "csrf_handling.py", helpers.bytesToString(streamToBytes(getClass().getResourceAsStream("/hvqzao/wildcard/resources/csrf_handling.py"))));
-                        }
-                    }
-                });
-                //
-                JLabel optionsHelpersCSRFDescription = new JLabel("<html>This extension should handle application specific CSRF tokens in order to enable it for automated testing."
-                        + "There are separate settings also available for literal string replacement in requests and responses. Thanks to that there is no need to mess in global Burp proxy search and replace settings.</html>");
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsHelpersCSRFDescription, 3, SpringLayout.SOUTH, optionsHelpersCSRF);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsHelpersCSRFDescription, 20, SpringLayout.WEST, optionsHelpersCSRF);
-                optionsLayout.putConstraint(SpringLayout.EAST, optionsHelpersCSRFDescription, -10, SpringLayout.EAST, optionsPane);
-                optionsPane.add(optionsHelpersCSRFDescription);
-                // options height measurement component
-                final JPanel optionsPaneHeight = new JPanel();
-                optionsLayout.putConstraint(SpringLayout.NORTH, optionsPaneHeight, 0, SpringLayout.NORTH, optionsPane);
-                optionsLayout.putConstraint(SpringLayout.SOUTH, optionsPaneHeight, 0, SpringLayout.SOUTH, optionsSettingsShortenTab);
-                optionsLayout.putConstraint(SpringLayout.WEST, optionsPaneHeight, 0, SpringLayout.WEST, optionsPane);
-                optionsLayout.putConstraint(SpringLayout.EAST, optionsPaneHeight, 0, SpringLayout.WEST, optionsPane);
-                optionsPane.add(optionsPaneHeight);
                 // settings defaults
                 optionsSettingsDefaults.addActionListener(new ActionListener() {
 
@@ -275,21 +278,22 @@ public class BurpExtension implements IBurpExtender, ITab, IExtensionStateListen
                 callbacks.customizeUiComponent(optionsTab);
                 extensionTabbedPane.addTab("Options", optionsTab);
                 // extensionTabbedPane actions
-                extensionTabbedPane.addChangeListener(new ChangeListener() {
+                //extensionTabbedPane.addChangeListener(new ChangeListener() {
+                //
+                //    @Override
+                //    public void stateChanged(ChangeEvent arg0) {
+                //        optionsPane.setPreferredSize(new Dimension(50, optionsPaneHeight.getHeight()));
+                //        // stdout.println(extensionTabbedPane.getSelectedIndex());
+                //    }
+                //});
 
-                    @Override
-                    public void stateChanged(ChangeEvent arg0) {
-                        optionsPane.setPreferredSize(new Dimension(50, optionsPaneHeight.getHeight()));
-                        // stdout.println(extensionTabbedPane.getSelectedIndex());
-                    }
-                });
                 // miscellaneous initializations
                 // hijackModel = new DefaultListModel<>();
                 hijackModel = new ArrayList<>();
                 // add the custom tab to Burp's UI
                 callbacks.addSuiteTab(BurpExtension.this);
                 // get burp frame and tabbed pane handler
-                burpFrame = (JFrame) SwingUtilities.getWindowAncestor(extensionTabbedPane);
+                //burpFrame = (JFrame) SwingUtilities.getWindowAncestor(extensionTabbedPane);
                 burpTabbedPane = (JTabbedPane) extensionTabbedPane.getParent();
                 // obtain extension Tab Label control
                 // extensionTabLabel = null;
@@ -627,74 +631,74 @@ public class BurpExtension implements IBurpExtender, ITab, IExtensionStateListen
     //
     // HelperView
     //
-    public class HelperView extends JDialog {
-
-        @Override
-        public void dispose() {
-            if (dialogs.contains(this)) {
-                dialogs.remove(this);
-            }
-            super.dispose();
-        }
-
-        private JTextArea textArea;
-
-        public HelperView(final Component parent, String title, final String filename, String content) {
-            setTitle(title);
-            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            setBounds(100, 100, 850, 800);
-            JMenuBar menu = new JMenuBar();
-            // callbacks.customizeUiComponent(menuBar);
-            setJMenuBar(menu);
-            JMenu menuFile = new JMenu("File");
-            menu.add(menuFile);
-            JMenuItem menuFileSaveAs = new JMenuItem("Save As...");
-            menuFile.add(menuFileSaveAs);
-            menuFileSaveAs.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JFileChooser fileChooser = new JFileChooser();
-                    fileChooser.setSelectedFile(new File(filename));
-                    if (fileChooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
-                        File file = fileChooser.getSelectedFile();
-                        PrintWriter writer;
-                        try {
-                            writer = new PrintWriter(file);
-                            writer.print(textArea.getText());
-                            writer.close();
-                        } catch (Exception ex) {
-                            // ex.printStackTrace(stderr);
-                            // callbacks.issueAlert("failed.");
-                        }
-                    }
-                }
-            });
-            JMenuItem menuFileClose = new JMenuItem("Close");
-            menuFile.add(menuFileClose);
-            menuFileClose.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dispose();
-                }
-            });
-            JScrollPane scrollPane = new JScrollPane();
-            setContentPane(scrollPane);
-            textArea = new JTextArea();
-            textArea.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
-            callbacks.customizeUiComponent(textArea);
-            textArea.setFont(new Font("monospaced", Font.PLAIN, 11));
-            textArea.setText(content);
-            textArea.setCaretPosition(0);
-            textArea.setEditable(false);
-            scrollPane.setViewportView(textArea);
-            // contentPane.add(textArea, BorderLayout.CENTER);
-            // setContentPane(textArea);
-            dialogs.add(this);
-            setLocationRelativeTo(parent);
-            setVisible(true);
-        }
-    }
+    //public class HelperView extends JDialog {
+    //
+    //    @Override
+    //    public void dispose() {
+    //        if (dialogs.contains(this)) {
+    //            dialogs.remove(this);
+    //        }
+    //        super.dispose();
+    //    }
+    //
+    //    private JTextArea textArea;
+    //
+    //    public HelperView(final Component parent, String title, final String filename, String content) {
+    //        setTitle(title);
+    //        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    //        setBounds(100, 100, 850, 800);
+    //        JMenuBar menu = new JMenuBar();
+    //        // callbacks.customizeUiComponent(menuBar);
+    //        setJMenuBar(menu);
+    //        JMenu menuFile = new JMenu("File");
+    //        menu.add(menuFile);
+    //        JMenuItem menuFileSaveAs = new JMenuItem("Save As...");
+    //        menuFile.add(menuFileSaveAs);
+    //        menuFileSaveAs.addActionListener(new ActionListener() {
+    //
+    //            @Override
+    //            public void actionPerformed(ActionEvent e) {
+    //                JFileChooser fileChooser = new JFileChooser();
+    //                fileChooser.setSelectedFile(new File(filename));
+    //                if (fileChooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
+    //                    File file = fileChooser.getSelectedFile();
+    //                    PrintWriter writer;
+    //                    try {
+    //                        writer = new PrintWriter(file);
+    //                        writer.print(textArea.getText());
+    //                        writer.close();
+    //                    } catch (Exception ex) {
+    //                        // ex.printStackTrace(stderr);
+    //                        // callbacks.issueAlert("failed.");
+    //                    }
+    //                }
+    //            }
+    //        });
+    //        JMenuItem menuFileClose = new JMenuItem("Close");
+    //        menuFile.add(menuFileClose);
+    //        menuFileClose.addActionListener(new ActionListener() {
+    //
+    //            @Override
+    //            public void actionPerformed(ActionEvent e) {
+    //                dispose();
+    //            }
+    //        });
+    //        JScrollPane scrollPane = new JScrollPane();
+    //        setContentPane(scrollPane);
+    //        textArea = new JTextArea();
+    //        textArea.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
+    //        callbacks.customizeUiComponent(textArea);
+    //        textArea.setFont(new Font("monospaced", Font.PLAIN, 11));
+    //        textArea.setText(content);
+    //        textArea.setCaretPosition(0);
+    //        textArea.setEditable(false);
+    //        scrollPane.setViewportView(textArea);
+    //        // contentPane.add(textArea, BorderLayout.CENTER);
+    //        // setContentPane(textArea);
+    //        dialogs.add(this);
+    //        setLocationRelativeTo(parent);
+    //        setVisible(true);
+    //    }
+    //}
 
 }
