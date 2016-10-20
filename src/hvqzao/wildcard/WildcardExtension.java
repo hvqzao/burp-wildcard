@@ -37,7 +37,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-public class BurpExtension implements IBurpExtender, ITab, IExtensionStateListener {
+public class WildcardExtension implements IBurpExtender, ITab, IExtensionStateListener {
 
     private static IBurpExtenderCallbacks callbacks;
     private static IExtensionHelpers helpers;
@@ -60,7 +60,7 @@ public class BurpExtension implements IBurpExtender, ITab, IExtensionStateListen
     @Override
     public void registerExtenderCallbacks(final IBurpExtenderCallbacks callbacks) {
         // keep a reference to our callbacks object
-        BurpExtension.callbacks = callbacks;
+        WildcardExtension.callbacks = callbacks;
         // your extension code here
         // obtain an extension helpers object
         helpers = callbacks.getHelpers();
@@ -82,7 +82,7 @@ public class BurpExtension implements IBurpExtender, ITab, IExtensionStateListen
 
                 // options tab
 //                final JPanel optionsPane = new JPanel();
-                final OptionsPane optionsPane = new OptionsPane();
+                final WildcardOptionsPane optionsPane = new WildcardOptionsPane();
                 // options layout
 //                SpringLayout optionsLayout = new SpringLayout();
 //                optionsPane.setLayout(optionsLayout);
@@ -291,7 +291,7 @@ public class BurpExtension implements IBurpExtender, ITab, IExtensionStateListen
                 // hijackModel = new DefaultListModel<>();
                 hijackModel = new ArrayList<>();
                 // add the custom tab to Burp's UI
-                callbacks.addSuiteTab(BurpExtension.this);
+                callbacks.addSuiteTab(WildcardExtension.this);
                 // get burp frame and tabbed pane handler
                 //burpFrame = (JFrame) SwingUtilities.getWindowAncestor(extensionTabbedPane);
                 burpTabbedPane = (JTabbedPane) extensionTabbedPane.getParent();
@@ -304,7 +304,7 @@ public class BurpExtension implements IBurpExtender, ITab, IExtensionStateListen
                 // initial blink
                 // extensionTabHighlightOrange();
                 // extension state listener
-                callbacks.registerExtensionStateListener(BurpExtension.this);
+                callbacks.registerExtensionStateListener(WildcardExtension.this);
                 // stdout.println("Loaded.");
                 optionsPane.requestFocus();
                 //

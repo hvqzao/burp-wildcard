@@ -13,12 +13,12 @@ import javax.swing.JLabel;
  *
  * @author nme
  */
-public class OptionsPane extends javax.swing.JPanel {
+public class WildcardOptionsPane extends javax.swing.JPanel {
 
     /**
      * Creates new form OptionsPnae
      */
-    public OptionsPane() {
+    public WildcardOptionsPane() {
         initComponents();
     }
 
