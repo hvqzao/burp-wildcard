@@ -12,6 +12,8 @@ After:
 
 Extension also provides CSRF Handling mini-extension source (Python) which could be saved as a file, customized and loaded into Burp later on. Newly added extension will handle application specific CSRF tokens.
 
+Requires Java 8.
+
 This extension _DOES NOT_ require Burp Suite Professional
 
 ## Download
