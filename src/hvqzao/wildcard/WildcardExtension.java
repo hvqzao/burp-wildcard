@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,7 +40,8 @@ public class WildcardExtension implements IBurpExtender, ITab, IExtensionStateLi
     private JCheckBox optionsSettingsUnsupported;
     private JCheckBox optionsSettingsPersistency;
     private JCheckBox optionsSettingsShortenTab;
-    private final String[] burpTabs = {"Target", "Proxy", "Spider", "Scanner", "Intruder", "Repeater", "Sequencer", "Decoder", "Comparer", "Extender", "Options", "User options", "Project options", "Alerts", "*"};
+    private final String[] defaultBurpTabs = {"Target", "Proxy", "Spider", "Scanner", "Intruder", "Repeater", "Sequencer", "Decoder", "Comparer", "Extender", "Options", "User options", "Project options", "Alerts", "*"};
+    private final ArrayList<String> burpTabs = new ArrayList<>();
     private JCheckBox optionsSettingsHijack;
     //private final ArrayList<JDialog> dialogs = new ArrayList<>();
     private Timer hijackTimer;
@@ -205,6 +207,7 @@ public class WildcardExtension implements IBurpExtender, ITab, IExtensionStateLi
             //});
 
             // miscellaneous initializations
+            Arrays.stream(defaultBurpTabs).forEach(e -> burpTabs.add(e));
             //hijackModel = new DefaultListModel<>();
             hijackModel = new ArrayList<>();
             // add the custom tab to Burp's UI
