@@ -5,12 +5,14 @@ import burp.IBurpExtender;
 import burp.IBurpExtenderCallbacks;
 import java.awt.Dimension;
 import java.io.PrintWriter;
-import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 
 public class WildcardExtension implements IBurpExtender {
@@ -23,7 +25,8 @@ public class WildcardExtension implements IBurpExtender {
     private static ImageIcon iconDefaults;
     private static Dimension iconDimension;
     private static PrintWriter stderr;
-        
+    private JSeparator separator;
+
     @Override
     public void registerExtenderCallbacks(final IBurpExtenderCallbacks callbacks) {
         WildcardExtension.callbacks = callbacks;
@@ -33,31 +36,34 @@ public class WildcardExtension implements IBurpExtender {
         callbacks.setExtensionName("Wildcard");
         // draw UI
         SwingUtilities.invokeLater(() -> {
-            try {
-                // images
-                iconHelp = new ImageIcon(new ImageIcon(getClass().getResource("/hvqzao/wildcard/resources/panel_help.png")).getImage().getScaledInstance(13, 13, java.awt.Image.SCALE_SMOOTH));
-                iconDefaults = new ImageIcon(new ImageIcon(getClass().getResource("/hvqzao/wildcard/resources/panel_defaults.png")).getImage().getScaledInstance(13, 13, java.awt.Image.SCALE_SMOOTH));
-                iconDimension = new Dimension(24, 24);
-
-                // options tab
-                extensionTabbedPane = new DnDTabbedPane();
-                callbacks.customizeUiComponent(extensionTabbedPane);
-                JPanel optionsPane = new JPanel();
-                // Y_AXIS BoxLayout
-                optionsPane.setLayout(new BoxLayout(optionsPane, BoxLayout.Y_AXIS));
-                // wildcard options pane
-                wildcardOptionsPane = new WildcardOptionsPane(extensionTabbedPane);
-                optionsPane.add(wildcardOptionsPane);
-                // wrap in scrollPane and add as "Options" tab
-                JScrollPane optionsTab = new JScrollPane(optionsPane, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                callbacks.customizeUiComponent(optionsTab);
-                extensionTabbedPane.addTab("Options", optionsTab);
-
-                // add extension tab and activate wildcard core functionalities
-                wildcardOptionsPane.start();
-            } catch (Exception ex) {
-                ex.printStackTrace(stderr);
-            }
+            // images
+            iconHelp = new ImageIcon(new ImageIcon(getClass().getResource("/hvqzao/wildcard/resources/panel_help.png")).getImage().getScaledInstance(13, 13, java.awt.Image.SCALE_SMOOTH));
+            iconDefaults = new ImageIcon(new ImageIcon(getClass().getResource("/hvqzao/wildcard/resources/panel_defaults.png")).getImage().getScaledInstance(13, 13, java.awt.Image.SCALE_SMOOTH));
+            iconDimension = new Dimension(24, 24);
+            // options tab
+            extensionTabbedPane = new DnDTabbedPane();
+            callbacks.customizeUiComponent(extensionTabbedPane);
+            JPanel optionsPane = new JPanel();
+            optionsPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            SpringLayout optionsLayout = new SpringLayout();
+            optionsPane.setLayout(optionsLayout);
+            // wildcard options pane
+            wildcardOptionsPane = new WildcardOptionsPane(extensionTabbedPane);
+            optionsPane.add(wildcardOptionsPane);
+            optionsLayout.putConstraint(SpringLayout.NORTH, wildcardOptionsPane, 0, SpringLayout.NORTH, optionsPane);
+            // --
+            addSeparator(optionsPane, optionsLayout, wildcardOptionsPane);
+            // outscope pane
+            OutscopePane outscopePane = new OutscopePane();
+            optionsPane.add(outscopePane);
+            optionsLayout.putConstraint(SpringLayout.NORTH, outscopePane, 20, SpringLayout.SOUTH, wildcardOptionsPane);
+            //optionsPane.add(Box.createVerticalGlue());
+            // wrap in scrollPane and add as "Options" tab
+            JScrollPane optionsTab = new JScrollPane(optionsPane, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            callbacks.customizeUiComponent(optionsTab);
+            extensionTabbedPane.addTab("Options", optionsTab);
+            // add extension tab and activate wildcard core functionalities
+            wildcardOptionsPane.start();
         });
     }
 
@@ -79,5 +85,13 @@ public class WildcardExtension implements IBurpExtender {
 
     public static Dimension getIconDimension() {
         return iconDimension;
+    }
+
+    private void addSeparator(JPanel pane, SpringLayout paneLayout, WildcardOptionsPane previousPane) {
+        separator = new JSeparator();
+        pane.add(separator);
+        paneLayout.putConstraint(SpringLayout.NORTH, separator, 10, SpringLayout.SOUTH, previousPane);
+        paneLayout.putConstraint(SpringLayout.WEST, separator, 0, SpringLayout.WEST, pane);
+        paneLayout.putConstraint(SpringLayout.EAST, separator, 0, SpringLayout.EAST, pane);
     }
 }

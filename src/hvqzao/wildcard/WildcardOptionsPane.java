@@ -39,54 +39,54 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
     private void initialize() {
         callbacks = BurpExtender.getCallbacks();
 
-        callbacks.customizeUiComponent(optionsSettingsUnsupported);
-        callbacks.customizeUiComponent(optionsSettingsPersistency);
-        callbacks.customizeUiComponent(optionsSettingsShortenTab);
-        callbacks.customizeUiComponent(optionsSettingsHijack);
-        callbacks.customizeUiComponent(optionsSettingsHelp);
-        callbacks.customizeUiComponent(optionsSettingsDefaults);
+        callbacks.customizeUiComponent(settingsUnsupported);
+        callbacks.customizeUiComponent(settingsPersistency);
+        callbacks.customizeUiComponent(settingsShortenTab);
+        callbacks.customizeUiComponent(settingsHijack);
+        callbacks.customizeUiComponent(settingsHelp);
+        callbacks.customizeUiComponent(settingsDefaults);
 
         extensionTabLabel = new JLabel(getTabCaption());
         callbacks.customizeUiComponent(extensionTabLabel);
 
-        optionsSettingsHelp.setIcon(BurpExtender.getIconHelp());
-        optionsSettingsDefaults.setIcon(BurpExtender.getIconDefaults());
-        optionsSettingsHelp.setEnabled(false);
-        optionsSettingsPersistency.setEnabled(false);
-        optionsSettingsShortenTab.setSelected(true);
-        optionsSettingsShortenTab.setEnabled(false);
-        optionsSettingsHijack.setSelected(true);
-        optionsSettingsHijack.setEnabled(false);
+        settingsHelp.setIcon(BurpExtender.getIconHelp());
+        settingsDefaults.setIcon(BurpExtender.getIconDefaults());
+        settingsHelp.setEnabled(false);
+        settingsPersistency.setEnabled(false);
+        settingsShortenTab.setSelected(true);
+        settingsShortenTab.setEnabled(false);
+        settingsHijack.setSelected(true);
+        settingsHijack.setEnabled(false);
 
         Arrays.stream(defaultBurpTabs).forEach(e -> burpTabs.add(e));
         hijackModel = new ArrayList<>();
 
         // defaults
-        optionsSettingsDefaults.addActionListener((e) -> {
-            optionsSettingsUnsupported.setSelected(false);
-            optionsSettingsPersistency.setSelected(false);
+        settingsDefaults.addActionListener((e) -> {
+            settingsUnsupported.setSelected(false);
+            settingsPersistency.setSelected(false);
             optionsSettingsUnsupportedChange();
         });
         // unsupported
-        optionsSettingsUnsupported.addActionListener((e) -> {
+        settingsUnsupported.addActionListener((e) -> {
             optionsSettingsUnsupportedChange();
         });
         // persistency
-        optionsSettingsPersistency.addActionListener((e) -> {
+        settingsPersistency.addActionListener((e) -> {
             optionsSettingsPersistencySave();
         });
         // shorten
-        optionsSettingsShortenTab.addActionListener((e) -> {
-            if (optionsSettingsPersistency.isSelected()) {
-                callbacks.saveExtensionSetting("optionsSettingsShortenTab", String.valueOf(optionsSettingsShortenTab.isSelected()));
+        settingsShortenTab.addActionListener((e) -> {
+            if (settingsPersistency.isSelected()) {
+                callbacks.saveExtensionSetting("optionsSettingsShortenTab", String.valueOf(settingsShortenTab.isSelected()));
             }
             optionsSettingsShortenTabUpdate();
             extensionTabHighlightOrange();
         });
         // hijack
-        optionsSettingsHijack.addActionListener((e) -> {
-            if (optionsSettingsPersistency.isSelected()) {
-                callbacks.saveExtensionSetting("optionsSettingsHijack", String.valueOf(optionsSettingsHijack.isSelected()));
+        settingsHijack.addActionListener((e) -> {
+            if (settingsPersistency.isSelected()) {
+                callbacks.saveExtensionSetting("optionsSettingsHijack", String.valueOf(settingsHijack.isSelected()));
             }
             optionsSettingsHijackUpdate();
         });
@@ -105,59 +105,59 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
     }
 
     public JButton getOptionsSettingsDefaults() {
-        return optionsSettingsDefaults;
+        return settingsDefaults;
     }
 
     public JButton getOptionsSettingsHelp() {
-        return optionsSettingsHelp;
+        return settingsHelp;
     }
 
     public JCheckBox getOptionsSettingsUnsupported() {
-        return optionsSettingsUnsupported;
+        return settingsUnsupported;
     }
 
     public JCheckBox getOptionsSettingsPersistency() {
-        return optionsSettingsPersistency;
+        return settingsPersistency;
     }
 
     public JCheckBox getOptionsSettingsShortenTab() {
-        return optionsSettingsShortenTab;
+        return settingsShortenTab;
     }
 
     public JLabel getOptionsSettingsTitle() {
-        return optionsSettingsTitle;
+        return settingsTitle;
     }
 
     public JCheckBox getOptionsSettingsHijack() {
-        return optionsSettingsHijack;
+        return settingsHijack;
     }
 
     private void optionsSettingsPersistencyLoad() {
         String unsupported = callbacks.loadExtensionSetting("optionsSettingsUnsupported");
         if (unsupported != null) {
-            optionsSettingsUnsupported.setEnabled(String.valueOf("true").equals(unsupported));
-            optionsSettingsUnsupported.setSelected(true);
+            settingsUnsupported.setEnabled(String.valueOf("true").equals(unsupported));
+            settingsUnsupported.setSelected(true);
             optionsSettingsUnsupportedChange();
-            optionsSettingsPersistency.setSelected(true);
+            settingsPersistency.setSelected(true);
             String shortenTab = callbacks.loadExtensionSetting("optionsSettingsShortenTab");
             if (shortenTab != null) {
-                optionsSettingsShortenTab.setSelected(String.valueOf("true").equals(shortenTab));
+                settingsShortenTab.setSelected(String.valueOf("true").equals(shortenTab));
                 optionsSettingsShortenTabUpdate();
                 extensionTabHighlightOrange();
             }
             String hijack = callbacks.loadExtensionSetting("optionsSettingsHijack");
             if (hijack != null) {
-                optionsSettingsHijack.setSelected(String.valueOf("true").equals(hijack));
+                settingsHijack.setSelected(String.valueOf("true").equals(hijack));
                 optionsSettingsHijackUpdate();
             }
         }
     }
 
     private void optionsSettingsPersistencySave() {
-        if (optionsSettingsPersistency.isSelected()) {
-            callbacks.saveExtensionSetting("optionsSettingsUnsupported", String.valueOf(optionsSettingsUnsupported.isSelected()));
-            callbacks.saveExtensionSetting("optionsSettingsShortenTab", String.valueOf(optionsSettingsShortenTab.isSelected()));
-            callbacks.saveExtensionSetting("optionsSettingsHijack", String.valueOf(optionsSettingsHijack.isSelected()));
+        if (settingsPersistency.isSelected()) {
+            callbacks.saveExtensionSetting("optionsSettingsUnsupported", String.valueOf(settingsUnsupported.isSelected()));
+            callbacks.saveExtensionSetting("optionsSettingsShortenTab", String.valueOf(settingsShortenTab.isSelected()));
+            callbacks.saveExtensionSetting("optionsSettingsHijack", String.valueOf(settingsHijack.isSelected()));
         } else {
             callbacks.saveExtensionSetting("optionsSettingsUnsupported", null);
             callbacks.saveExtensionSetting("optionsSettingsShortenTab", null);
@@ -167,14 +167,14 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
     }
 
     private void optionsSettingsUnsupportedChange() {
-        boolean status = optionsSettingsUnsupported.isSelected();
+        boolean status = settingsUnsupported.isSelected();
         if (status == false) {
-            optionsSettingsShortenTab.setSelected(true);
+            settingsShortenTab.setSelected(true);
             optionsSettingsShortenTabUpdate();
         }
-        optionsSettingsPersistency.setEnabled(status);
-        optionsSettingsShortenTab.setEnabled(status);
-        optionsSettingsHijack.setEnabled(status);
+        settingsPersistency.setEnabled(status);
+        settingsShortenTab.setEnabled(status);
+        settingsHijack.setEnabled(status);
         extensionTabLabelControlChange(false);
         optionsSettingsHijackUpdate();
     }
@@ -248,7 +248,7 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
     }
 
     private void optionsSettingsHijackUpdate() {
-        if (optionsSettingsHijack.isEnabled() && optionsSettingsHijack.isSelected()) {
+        if (settingsHijack.isEnabled() && settingsHijack.isSelected()) {
             hijackTabs();
             if (hijackTimer == null) {
                 hijackTimer = new Timer(1000, (ActionEvent e) -> {
@@ -299,7 +299,7 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
 
     // extension tab label control change
     private void extensionTabLabelControlChange(boolean unhandled) {
-        boolean status = optionsSettingsUnsupported.isSelected();
+        boolean status = settingsUnsupported.isSelected();
         int extensionTabIndex = -1;
         for (int i = 0; i < burpTabbedPane.getTabCount(); i++) {
             if (status == false) {
@@ -369,98 +369,95 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        optionsSettingsHelp = new javax.swing.JButton();
-        optionsSettingsDefaults = new javax.swing.JButton();
-        optionsSettingsTitle = new javax.swing.JLabel();
-        optionsSettingsDescription = new javax.swing.JLabel();
-        optionsSettingsUnsupported = new javax.swing.JCheckBox();
-        optionsSettingsPersistency = new javax.swing.JCheckBox();
-        optionsSettingsShortenTab = new javax.swing.JCheckBox();
-        optionsSettingsHijack = new javax.swing.JCheckBox();
+        settingsHelp = new javax.swing.JButton();
+        settingsDefaults = new javax.swing.JButton();
+        settingsTitle = new javax.swing.JLabel();
+        settingsDescription = new javax.swing.JLabel();
+        settingsUnsupported = new javax.swing.JCheckBox();
+        settingsPersistency = new javax.swing.JCheckBox();
+        settingsShortenTab = new javax.swing.JCheckBox();
+        settingsHijack = new javax.swing.JCheckBox();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        optionsSettingsHelp.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        optionsSettingsHelp.setMaximumSize(new java.awt.Dimension(24, 24));
-        optionsSettingsHelp.setMinimumSize(new java.awt.Dimension(24, 24));
-        optionsSettingsHelp.setPreferredSize(new java.awt.Dimension(24, 24));
+        settingsHelp.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        settingsHelp.setMaximumSize(new java.awt.Dimension(24, 24));
+        settingsHelp.setMinimumSize(new java.awt.Dimension(24, 24));
+        settingsHelp.setPreferredSize(new java.awt.Dimension(24, 24));
 
-        optionsSettingsDefaults.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        optionsSettingsDefaults.setMaximumSize(new java.awt.Dimension(24, 24));
-        optionsSettingsDefaults.setMinimumSize(new java.awt.Dimension(24, 24));
-        optionsSettingsDefaults.setPreferredSize(new java.awt.Dimension(24, 24));
+        settingsDefaults.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        settingsDefaults.setMaximumSize(new java.awt.Dimension(24, 24));
+        settingsDefaults.setMinimumSize(new java.awt.Dimension(24, 24));
+        settingsDefaults.setPreferredSize(new java.awt.Dimension(24, 24));
 
-        optionsSettingsTitle.setText("<html><b style='color:#e58900;font-size:10px'>Settings</b></html>");
+        settingsTitle.setText("<html><b style='color:#e58900;font-size:10px'>Settings</b></html>");
 
-        optionsSettingsDescription.setText("<html>Use these settings to control extension behavior.</html>");
+        settingsDescription.setText("<html>Use these settings to control extension behavior.</html>");
 
-        optionsSettingsUnsupported.setText("Enable features not officially supported by Burp Extender");
+        settingsUnsupported.setText("Enable features not officially supported by Burp Extender");
 
-        optionsSettingsPersistency.setText("Remember those settings (potentially unsafe)");
+        settingsPersistency.setText("Remember those settings (potentially unsafe)");
 
-        optionsSettingsShortenTab.setText("Shorten extension name on main tab");
+        settingsShortenTab.setText("Shorten extension name on main tab");
 
-        optionsSettingsHijack.setText("Hijack tabs belonging to other extensions");
+        settingsHijack.setText("Hijack tabs belonging to other extensions");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(optionsSettingsHelp, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(settingsHelp, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(optionsSettingsTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(settingsTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(optionsSettingsDefaults, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(settingsDefaults, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(optionsSettingsDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(optionsSettingsUnsupported)
+                            .addComponent(settingsDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(settingsUnsupported)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(21, 21, 21)
-                                .addComponent(optionsSettingsPersistency))
-                            .addComponent(optionsSettingsShortenTab)
-                            .addComponent(optionsSettingsHijack))))
-                .addContainerGap(339, Short.MAX_VALUE))
+                                .addComponent(settingsPersistency))
+                            .addComponent(settingsShortenTab)
+                            .addComponent(settingsHijack))))
+                .addGap(0, 349, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(settingsHelp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(settingsTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(optionsSettingsHelp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(optionsSettingsDefaults, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(optionsSettingsTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(optionsSettingsDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(settingsDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(optionsSettingsUnsupported)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(optionsSettingsPersistency)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(optionsSettingsShortenTab)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(optionsSettingsHijack)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(settingsUnsupported)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(settingsPersistency)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(settingsShortenTab)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(settingsHijack))
+                    .addComponent(settingsDefaults, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton optionsSettingsDefaults;
-    private javax.swing.JLabel optionsSettingsDescription;
-    private javax.swing.JButton optionsSettingsHelp;
-    private javax.swing.JCheckBox optionsSettingsHijack;
-    private javax.swing.JCheckBox optionsSettingsPersistency;
-    private javax.swing.JCheckBox optionsSettingsShortenTab;
-    private javax.swing.JLabel optionsSettingsTitle;
-    private javax.swing.JCheckBox optionsSettingsUnsupported;
+    private javax.swing.JButton settingsDefaults;
+    private javax.swing.JLabel settingsDescription;
+    private javax.swing.JButton settingsHelp;
+    private javax.swing.JCheckBox settingsHijack;
+    private javax.swing.JCheckBox settingsPersistency;
+    private javax.swing.JCheckBox settingsShortenTab;
+    private javax.swing.JLabel settingsTitle;
+    private javax.swing.JCheckBox settingsUnsupported;
     // End of variables declaration//GEN-END:variables
 
     //
@@ -468,7 +465,7 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
     //
     @Override
     public String getTabCaption() {
-        if (optionsSettingsShortenTab.isSelected()) {
+        if (settingsShortenTab.isSelected()) {
             return "*";
         } else {
             return "Wildcard";
