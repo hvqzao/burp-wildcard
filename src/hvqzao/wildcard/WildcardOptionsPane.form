@@ -27,22 +27,22 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="OptionsSettingsHelp" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="optionsSettingsHelp" min="-2" pref="24" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="OptionsSettingsTitle" min="-2" max="-2" attributes="0"/>
+                      <Component id="optionsSettingsTitle" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="OptionsSettingsDefaults" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="optionsSettingsDefaults" min="-2" pref="24" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="OptionsSettingsDescription" min="-2" max="-2" attributes="0"/>
-                          <Component id="OptionsSettingsUnsupported" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="optionsSettingsDescription" min="-2" max="-2" attributes="0"/>
+                          <Component id="optionsSettingsUnsupported" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
-                              <Component id="OptionsSettingsPersistency" min="-2" max="-2" attributes="0"/>
+                              <Component id="optionsSettingsPersistency" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="OptionsSettingsShortenTab" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="OptionsSettingsHijack" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="optionsSettingsShortenTab" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="optionsSettingsHijack" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -56,31 +56,31 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="OptionsSettingsHelp" min="-2" max="-2" attributes="0"/>
+                      <Component id="optionsSettingsHelp" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="OptionsSettingsDefaults" min="-2" max="-2" attributes="0"/>
+                      <Component id="optionsSettingsDefaults" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="OptionsSettingsTitle" min="-2" max="-2" attributes="0"/>
+                      <Component id="optionsSettingsTitle" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="OptionsSettingsDescription" min="-2" max="-2" attributes="0"/>
+                      <Component id="optionsSettingsDescription" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="OptionsSettingsUnsupported" min="-2" max="-2" attributes="0"/>
+                      <Component id="optionsSettingsUnsupported" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="OptionsSettingsPersistency" min="-2" max="-2" attributes="0"/>
+              <Component id="optionsSettingsPersistency" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="OptionsSettingsShortenTab" min="-2" max="-2" attributes="0"/>
+              <Component id="optionsSettingsShortenTab" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="OptionsSettingsHijack" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="144" max="32767" attributes="0"/>
+              <Component id="optionsSettingsHijack" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="OptionsSettingsHelp">
+    <Component class="javax.swing.JButton" name="optionsSettingsHelp">
       <Properties>
         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
           <Insets value="[0, 0, 0, 0]"/>
@@ -96,7 +96,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="OptionsSettingsDefaults">
+    <Component class="javax.swing.JButton" name="optionsSettingsDefaults">
       <Properties>
         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
           <Insets value="[0, 0, 0, 0]"/>
@@ -112,32 +112,32 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="OptionsSettingsTitle">
+    <Component class="javax.swing.JLabel" name="optionsSettingsTitle">
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b style=&apos;color:#e58900;font-size:10px&apos;&gt;Settings&lt;/b&gt;&lt;/html&gt;"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="OptionsSettingsDescription">
+    <Component class="javax.swing.JLabel" name="optionsSettingsDescription">
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;html&gt;Use these settings to control extension behavior.&lt;/html&gt;"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="OptionsSettingsUnsupported">
+    <Component class="javax.swing.JCheckBox" name="optionsSettingsUnsupported">
       <Properties>
         <Property name="text" type="java.lang.String" value="Enable features not officially supported by Burp Extender"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="OptionsSettingsPersistency">
+    <Component class="javax.swing.JCheckBox" name="optionsSettingsPersistency">
       <Properties>
         <Property name="text" type="java.lang.String" value="Remember those settings (potentially unsafe)"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="OptionsSettingsShortenTab">
+    <Component class="javax.swing.JCheckBox" name="optionsSettingsShortenTab">
       <Properties>
         <Property name="text" type="java.lang.String" value="Shorten extension name on main tab"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="OptionsSettingsHijack">
+    <Component class="javax.swing.JCheckBox" name="optionsSettingsHijack">
       <Properties>
         <Property name="text" type="java.lang.String" value="Hijack tabs belonging to other extensions"/>
       </Properties>
