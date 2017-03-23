@@ -2,6 +2,9 @@ package hvqzao.wildcard;
 
 import burp.BurpExtender;
 import burp.IBurpExtenderCallbacks;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class OutscopePane extends javax.swing.JPanel {
 
@@ -19,8 +22,65 @@ public class OutscopePane extends javax.swing.JPanel {
         defaultsButton.setIcon(BurpExtender.getIconDefaults());
         helpButton.setEnabled(false);
         defaultsButton.setEnabled(false);
-        
-        callbacks.customizeUiComponent(excludeButton);
+
+        callbacks.customizeUiComponent(excludeCheckbox);
+
+        excludeCheckbox.setSelected(is());
+        excludeCheckbox.addActionListener((e) -> {
+            if (excludeCheckbox.isSelected() == false) {
+                remove();
+            } else {
+                add();
+            }
+        });
+    }
+
+    private boolean is() {
+        // without Json-aware library
+        String config = callbacks.saveConfigAsJson("target.scope.exclude");
+        return config.contains("\"file\":\"^/.*\\\\.(js|css|gif|png|jpg|jpeg|ico|svg|woff|woff2|eot|ttf)(;|\\\\?|$)\",\n");
+    }
+
+    private void add() {
+        // without Json-aware library
+        String config = callbacks.saveConfigAsJson("target.scope.exclude");
+        int startIndex = config.indexOf("[");
+        int closeIndex = config.lastIndexOf("]");
+        StringBuilder configBuilder = new StringBuilder(config.substring(0, closeIndex));
+        if (startIndex + 1 != closeIndex) {
+            configBuilder.append(",\n");
+        }
+        configBuilder.append("{\n"
+                + "\"enabled\":true,\n"
+                + "\"file\":\"^/.*\\\\.(js|css|gif|png|jpg|jpeg|ico|svg|woff|woff2|eot|ttf)(;|\\\\?|$)\",\n"
+                + "\"protocol\":\"any\"\n"
+                + "}");
+        configBuilder.append(config.substring(closeIndex, config.length()));
+        callbacks.loadConfigFromJson(configBuilder.toString());
+    }
+
+    private void remove() {
+        // without Json-aware library
+        String config = callbacks.saveConfigAsJson("target.scope.exclude");
+        //callbacks.printOutput(config);
+        ArrayList<String> pieces = new ArrayList<>(Arrays.asList(config.split("}")));
+        pieces.add("");
+        ArrayList<Integer> found = new ArrayList<>();
+        for (int i = 0; i < pieces.size(); i++) {
+            String piece = pieces.get(i);
+            if (piece.contains("\"file\":\"^/.*\\\\.(js|css|gif|png|jpg|jpeg|ico|svg|woff|woff2|eot|ttf)(;|\\\\?|$)\",\n")) {
+                found.add(i);
+            }
+        }
+        found.forEach((Integer t) -> {
+            pieces.set(t, null);
+        });
+        pieces.removeAll(Collections.singleton(null));
+        try {
+            callbacks.loadConfigFromJson(String.join("}", pieces));
+        } catch (Exception ex) {
+            ex.printStackTrace(BurpExtender.getStderr());
+        }
     }
 
     /**
@@ -36,7 +96,7 @@ public class OutscopePane extends javax.swing.JPanel {
         defaultsButton = new javax.swing.JButton();
         description = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
-        excludeButton = new javax.swing.JButton();
+        excludeCheckbox = new javax.swing.JCheckBox();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 10, 5));
 
@@ -54,12 +114,7 @@ public class OutscopePane extends javax.swing.JPanel {
 
         title.setText("<html><b style='color:#e58900;font-size:10px'>Scope</b></html>");
 
-        excludeButton.setText("Exclude common static files");
-        excludeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                excludeButtonActionPerformed(evt);
-            }
-        });
+        excludeCheckbox.setText("Exclude common static files");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -76,8 +131,8 @@ public class OutscopePane extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(excludeButton))))
-                .addGap(0, 393, Short.MAX_VALUE))
+                            .addComponent(excludeCheckbox))))
+                .addGap(0, 401, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,36 +143,21 @@ public class OutscopePane extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(defaultsButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(22, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(excludeButton))
-                    .addComponent(defaultsButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(excludeCheckbox)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void excludeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excludeButtonActionPerformed
-        String config = callbacks.saveConfigAsJson("target.scope.exclude");
-        int startIndex = config.indexOf("[");
-        int closeIndex = config.lastIndexOf("]");
-        BurpExtender.getStderr().println(String.valueOf(startIndex) + ", " + String.valueOf(closeIndex));
-        StringBuilder configBuilder = new StringBuilder(config.substring(0, closeIndex));
-        if (startIndex + 1 != closeIndex) {
-            configBuilder.append(",\n");
-        }
-        configBuilder.append("{\n"
-                + "\"enabled\":true,\n"
-                + "\"file\":\"^/.*\\\\.(js|css|gif|png|jpg|jpeg|ico|svg|woff|woff2|eot|ttf)(;|\\\\?|$)\",\n"
-                + "\"protocol\":\"any\"\n"
-                + "}");
-        configBuilder.append(config.substring(closeIndex, config.length()));
-        callbacks.loadConfigFromJson(configBuilder.toString());
-      }//GEN-LAST:event_excludeButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton defaultsButton;
     private javax.swing.JLabel description;
-    private javax.swing.JButton excludeButton;
+    private javax.swing.JCheckBox excludeCheckbox;
     private javax.swing.JButton helpButton;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
