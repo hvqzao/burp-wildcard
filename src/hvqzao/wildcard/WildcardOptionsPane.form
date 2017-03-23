@@ -42,6 +42,7 @@
                           </Group>
                           <Component id="settingsShortenTab" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="settingsHijack" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="excludeCheckbox" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -72,6 +73,7 @@
                   <Component id="settingsDefaults" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="excludeCheckbox" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -137,6 +139,11 @@
     <Component class="javax.swing.JCheckBox" name="settingsHijack">
       <Properties>
         <Property name="text" type="java.lang.String" value="Hijack tabs belonging to other extensions"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="excludeCheckbox">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Exclude common static files"/>
       </Properties>
     </Component>
   </SubComponents>
