@@ -22,7 +22,7 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
     private IBurpExtenderCallbacks callbacks;
     private Component extensionTabLabelRestore;
     private ArrayList<String> hijackModel;
-    private final String[] defaultBurpTabs = {"Target", "Proxy", "Spider", "Scanner", "Intruder", "Repeater", "Sequencer", "Decoder", "Comparer", "Extender", "Options", "User options", "Project options", "Alerts", "*"};
+    private final String[] defaultBurpTabs = {"Dashboard", "Target", "Proxy", "Spider", "Scanner", "Intruder", "Repeater", "Sequencer", "Decoder", "Comparer", "Extender", "Options", "User options", "Project options", "Alerts", "*"};
     private final ArrayList<String> burpTabs = new ArrayList<>();
     private final JTabbedPane extensionTabbedPane;
     private JTabbedPane burpTabbedPane;
@@ -412,7 +412,7 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
             extensionTabLabel.setForeground(Color.black);
             extensionTabHighlightTimer = null;
         });
-        extensionTabLabel.setForeground(new Color(229, 137, 0));
+        extensionTabLabel.setForeground(new Color(255, 102, 51)); // color:#ff6633
         extensionTabHighlightTimer.setRepeats(false);
         extensionTabHighlightTimer.start();
     }
@@ -448,7 +448,7 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
         settingsDefaults.setMinimumSize(new java.awt.Dimension(24, 24));
         settingsDefaults.setPreferredSize(new java.awt.Dimension(24, 24));
 
-        settingsTitle.setText("<html><b style='color:#e58900;font-size:10px'>Settings</b></html>");
+        settingsTitle.setText("<html><b style='color:#ff6633;font-size:10px'>Settings</b></html>");
 
         settingsDescription.setText("<html>Use these settings to control extension behavior.</html>");
 

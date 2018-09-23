@@ -1,4 +1,4 @@
-// Wildcard Burp Extension, (c) 2015-2017 Marcin Woloszyn (@hvqzao), Released under MIT license
+// Wildcard Burp Extension, (c) 2015-2018 Marcin Woloszyn (@hvqzao), Released under MIT license
 package hvqzao.wildcard;
 
 import burp.IBurpExtender;

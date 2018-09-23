@@ -113,7 +113,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="settingsTitle">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b style=&apos;color:#e58900;font-size:10px&apos;&gt;Settings&lt;/b&gt;&lt;/html&gt;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b style=&apos;color:#ff6633;font-size:10px&apos;&gt;Settings&lt;/b&gt;&lt;/html&gt;"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="settingsDescription">
