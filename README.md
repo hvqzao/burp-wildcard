@@ -12,6 +12,8 @@ After:
 
 Extension also provides CSRF Handling mini-extension source (Python) which could be saved as a file, customized and loaded into Burp later on. Newly added extension will handle application specific CSRF tokens.
 
+This extension will automatically turn off if dark theme "Darkula" (BurpSuite 2+) is enabled as it is not compatible with it.
+
 Requires Java 8.
 
 This extension _DOES NOT_ require Burp Suite Professional

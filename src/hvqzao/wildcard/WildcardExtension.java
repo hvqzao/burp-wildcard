@@ -14,6 +14,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 public class WildcardExtension implements IBurpExtender {
 
@@ -29,13 +30,21 @@ public class WildcardExtension implements IBurpExtender {
 
     @Override
     public void registerExtenderCallbacks(final IBurpExtenderCallbacks callbacks) {
+        
         WildcardExtension.callbacks = callbacks;
         //helpers = callbacks.getHelpers();
-        stderr = new PrintWriter(callbacks.getStderr(), true);
+
         // set extension name
         callbacks.setExtensionName("Wildcard");
         // draw UI
         SwingUtilities.invokeLater(() -> {
+            // abort and exit on dark theme
+            if ("darcula".equals(UIManager.getLookAndFeel().getName().toLowerCase())) {
+                new PrintWriter(callbacks.getStdout(), true).println("Dark theme is not compatible with this extension. Exiting.");
+                callbacks.unloadExtension();
+                return;
+            }
+            stderr = new PrintWriter(callbacks.getStderr(), true);
             // images
             iconHelp = new ImageIcon(new ImageIcon(getClass().getResource("/hvqzao/wildcard/resources/panel_help.png")).getImage().getScaledInstance(13, 13, java.awt.Image.SCALE_SMOOTH));
             iconDefaults = new ImageIcon(new ImageIcon(getClass().getResource("/hvqzao/wildcard/resources/panel_defaults.png")).getImage().getScaledInstance(13, 13, java.awt.Image.SCALE_SMOOTH));
