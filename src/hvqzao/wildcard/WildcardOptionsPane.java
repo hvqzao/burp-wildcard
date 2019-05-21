@@ -9,6 +9,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -66,6 +67,7 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
             settingsUnsupported.setSelected(false);
             settingsPersistency.setSelected(false);
             optionsSettingsUnsupportedChange();
+            removeExclude();
         });
         // unsupported
         settingsUnsupported.addActionListener((e) -> {
@@ -90,12 +92,67 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
             }
             optionsSettingsHijackUpdate();
         });
+        // exclude
+        excludeCheckbox.setSelected(isExcluded());
+        excludeCheckbox.addActionListener((e) -> {
+            if (excludeCheckbox.isSelected() == false) {
+                removeExclude();
+            } else {
+                addExclude();
+            }
+        });
     }
 
-    /**
-     * Activate functionalities
-     *
-     */
+    private boolean isExcluded() {
+        // without Json-aware library
+        String config = callbacks.saveConfigAsJson("target.scope.exclude");
+        return config.contains("\"file\":\"^/.*\\\\.(js|css|gif|png|jpg|jpeg|ico|svg|woff|woff2|eot|ttf)(;|\\\\?|$)\",\n");
+    }
+
+    private void addExclude() {
+        // without Json-aware library
+        String config = callbacks.saveConfigAsJson("target.scope.exclude");
+        int startIndex = config.indexOf("[");
+        int closeIndex = config.lastIndexOf("]");
+        StringBuilder configBuilder = new StringBuilder(config.substring(0, closeIndex));
+        if (startIndex + 1 != closeIndex) {
+            configBuilder.append(",\n");
+        }
+        configBuilder.append("{\n"
+                + "\"enabled\":true,\n"
+                + "\"file\":\"^/.*\\\\.(js|css|gif|png|jpg|jpeg|ico|svg|woff|woff2|eot|ttf)(;|\\\\?|$)\",\n"
+                + "\"protocol\":\"any\"\n"
+                + "}");
+        configBuilder.append(config.substring(closeIndex, config.length()));
+        callbacks.loadConfigFromJson(configBuilder.toString());
+        excludeCheckbox.setSelected(true);
+    }
+
+    private void removeExclude() {
+        // without Json-aware library
+        String config = callbacks.saveConfigAsJson("target.scope.exclude");
+        //callbacks.printOutput(config);
+        ArrayList<String> pieces = new ArrayList<>(Arrays.asList(config.split("}")));
+        pieces.add("");
+        ArrayList<Integer> found = new ArrayList<>();
+        for (int i = 0; i < pieces.size(); i++) {
+            String piece = pieces.get(i);
+            if (piece.contains("\"file\":\"^/.*\\\\.(js|css|gif|png|jpg|jpeg|ico|svg|woff|woff2|eot|ttf)(;|\\\\?|$)\",\n")) {
+                found.add(i);
+            }
+        }
+        found.forEach((Integer t) -> {
+            pieces.set(t, null);
+        });
+        pieces.removeAll(Collections.singleton(null));
+        try {
+            callbacks.loadConfigFromJson(String.join("}", pieces));
+        } catch (Exception ex) {
+            ex.printStackTrace(BurpExtender.getStderr());
+        }
+        excludeCheckbox.setSelected(false);
+    }
+
     public void start() {
         callbacks.addSuiteTab(this);
         burpTabbedPane = (JTabbedPane) extensionTabbedPane.getParent();
@@ -356,7 +413,7 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
             extensionTabHighlightTimer = null;
         });
         //extensionTabLabel.setForeground(new Color(229, 137, 0));
-        extensionTabLabel.setForeground(new Color(255, 102, 51));
+        extensionTabLabel.setForeground(new Color(255, 102, 51)); // color:#ff6633
         extensionTabHighlightTimer.setRepeats(false);
         extensionTabHighlightTimer.start();
     }
@@ -378,6 +435,7 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
         settingsPersistency = new javax.swing.JCheckBox();
         settingsShortenTab = new javax.swing.JCheckBox();
         settingsHijack = new javax.swing.JCheckBox();
+        excludeCheckbox = new javax.swing.JCheckBox();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -403,6 +461,8 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
 
         settingsHijack.setText("Hijack tabs belonging to other extensions");
 
+        excludeCheckbox.setText("Exclude common static files");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -423,7 +483,8 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
                                 .addGap(21, 21, 21)
                                 .addComponent(settingsPersistency))
                             .addComponent(settingsShortenTab)
-                            .addComponent(settingsHijack))))
+                            .addComponent(settingsHijack)
+                            .addComponent(excludeCheckbox))))
                 .addGap(0, 349, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -445,12 +506,14 @@ public class WildcardOptionsPane extends JPanel implements ITab, IExtensionState
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(settingsHijack))
                     .addComponent(settingsDefaults, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(excludeCheckbox))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox excludeCheckbox;
     private javax.swing.JButton settingsDefaults;
     private javax.swing.JLabel settingsDescription;
     private javax.swing.JButton settingsHelp;

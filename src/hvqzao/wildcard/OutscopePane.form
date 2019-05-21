@@ -39,7 +39,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace min="0" pref="393" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="66" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -98,7 +98,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="description">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;Scope control features.&lt;/html&gt;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;Scope control features.Works only when &quot;Use advanced scope control&quot; is ticked in Target / Scope tab.&lt;/html&gt;"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="title">

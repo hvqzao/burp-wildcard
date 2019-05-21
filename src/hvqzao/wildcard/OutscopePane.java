@@ -50,7 +50,7 @@ public class OutscopePane extends javax.swing.JPanel {
         defaultsButton.setMinimumSize(new java.awt.Dimension(24, 24));
         defaultsButton.setPreferredSize(new java.awt.Dimension(24, 24));
 
-        description.setText("<html>Scope control features.</html>");
+        description.setText("<html>Scope control features.Works only when \"Use advanced scope control\" is ticked in Target / Scope tab.</html>");
 
         title.setText("<html><b style='color:#ff6633;font-size:10px'>Scope</b></html>");
 
@@ -77,7 +77,7 @@ public class OutscopePane extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(excludeButton))))
-                .addGap(0, 393, Short.MAX_VALUE))
+                .addGap(0, 66, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

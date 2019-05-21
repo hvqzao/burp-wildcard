@@ -27,7 +27,10 @@ public class WildcardExtension implements IBurpExtender {
     private static Dimension iconDimension;
     private static PrintWriter stderr;
     private JSeparator separator;
-
+    private JPanel optionsPane;
+    private SpringLayout optionsLayout;
+    private JPanel previousPane;
+    
     @Override
     public void registerExtenderCallbacks(final IBurpExtenderCallbacks callbacks) {
         
@@ -52,21 +55,24 @@ public class WildcardExtension implements IBurpExtender {
             // options tab
             extensionTabbedPane = new DnDTabbedPane();
             callbacks.customizeUiComponent(extensionTabbedPane);
-            JPanel optionsPane = new JPanel();
+            optionsPane = new JPanel();
             optionsPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            SpringLayout optionsLayout = new SpringLayout();
+            optionsLayout = new SpringLayout();
             optionsPane.setLayout(optionsLayout);
             // wildcard options pane
             wildcardOptionsPane = new WildcardOptionsPane(extensionTabbedPane);
             optionsPane.add(wildcardOptionsPane);
             optionsLayout.putConstraint(SpringLayout.NORTH, wildcardOptionsPane, 0, SpringLayout.NORTH, optionsPane);
-            // --
-            addSeparator(optionsPane, optionsLayout, wildcardOptionsPane);
+            previousPane = wildcardOptionsPane;
             // outscope pane
+            addSeparator();
             OutscopePane outscopePane = new OutscopePane();
             optionsPane.add(outscopePane);
             optionsLayout.putConstraint(SpringLayout.NORTH, outscopePane, 20, SpringLayout.SOUTH, wildcardOptionsPane);
             //optionsPane.add(Box.createVerticalGlue());
+            // [...]
+            // next pane
+            //addPane(new NextPane());
             // wrap in scrollPane and add as "Options" tab
             JScrollPane optionsTab = new JScrollPane(optionsPane, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             callbacks.customizeUiComponent(optionsTab);
@@ -96,11 +102,18 @@ public class WildcardExtension implements IBurpExtender {
         return iconDimension;
     }
 
-    private void addSeparator(JPanel pane, SpringLayout paneLayout, WildcardOptionsPane previousPane) {
+    private void addSeparator() {
         separator = new JSeparator();
-        pane.add(separator);
-        paneLayout.putConstraint(SpringLayout.NORTH, separator, 10, SpringLayout.SOUTH, previousPane);
-        paneLayout.putConstraint(SpringLayout.WEST, separator, 0, SpringLayout.WEST, pane);
-        paneLayout.putConstraint(SpringLayout.EAST, separator, 0, SpringLayout.EAST, pane);
+        optionsPane.add(separator);
+        optionsLayout.putConstraint(SpringLayout.NORTH, separator, 10, SpringLayout.SOUTH, previousPane);
+        optionsLayout.putConstraint(SpringLayout.WEST, separator, 0, SpringLayout.WEST, optionsPane);
+        optionsLayout.putConstraint(SpringLayout.EAST, separator, 0, SpringLayout.EAST, optionsPane);
     }
+
+    private void addPane(JPanel nextPane) {
+        addSeparator();
+        optionsPane.add(nextPane);
+        optionsLayout.putConstraint(SpringLayout.NORTH, nextPane, 20, SpringLayout.SOUTH, wildcardOptionsPane);
+    }
+
 }
