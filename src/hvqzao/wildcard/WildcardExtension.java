@@ -1,4 +1,4 @@
-// Wildcard Burp Extension, (c) 2015-2017 Marcin Woloszyn (@hvqzao), Released under MIT license
+// Wildcard Burp Extension, (c) 2015-2019 Marcin Woloszyn (@hvqzao), Released under MIT license
 package hvqzao.wildcard;
 
 import burp.IBurpExtender;
@@ -39,8 +39,8 @@ public class WildcardExtension implements IBurpExtender {
         // draw UI
         SwingUtilities.invokeLater(() -> {
             // abort and exit on dark theme
-            if ("darcula".equals(UIManager.getLookAndFeel().getName().toLowerCase())) {
-                new PrintWriter(callbacks.getStdout(), true).println("Dark theme is not compatible with this extension. Exiting.");
+            if ("nimbus".equals(UIManager.getLookAndFeel().getName().toLowerCase()) == false) {
+                new PrintWriter(callbacks.getStdout(), true).println("Other themes than Nimbus are not compatible with this extension. Exiting.");
                 callbacks.unloadExtension();
                 return;
             }

@@ -52,7 +52,7 @@ public class OutscopePane extends javax.swing.JPanel {
 
         description.setText("<html>Scope control features.</html>");
 
-        title.setText("<html><b style='color:#e58900;font-size:10px'>Scope</b></html>");
+        title.setText("<html><b style='color:#ff6633;font-size:10px'>Scope</b></html>");
 
         excludeButton.setText("Exclude common static files");
         excludeButton.addActionListener(new java.awt.event.ActionListener() {
