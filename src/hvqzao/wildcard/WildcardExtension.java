@@ -42,8 +42,8 @@ public class WildcardExtension implements IBurpExtender {
         // draw UI
         SwingUtilities.invokeLater(() -> {
             // abort and exit on dark theme
-            if ("nimbus".equals(UIManager.getLookAndFeel().getName().toLowerCase()) == false) {
-                new PrintWriter(callbacks.getStdout(), true).println("Other themes than Nimbus are not compatible with this extension. Exiting.");
+            if ("darcula".equals(UIManager.getLookAndFeel().getName().toLowerCase())) {
+                new PrintWriter(callbacks.getStdout(), true).println("Darcula themes is not compatible with this extension. Exiting.");
                 callbacks.unloadExtension();
                 return;
             }
